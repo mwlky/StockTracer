@@ -3,7 +3,7 @@ import "./Divider.css"
 
 const Divider = (): JSX.Element => {
   return (
-    <div className="divider"></div>
+    <div className="divider-divider"></div>
   )
 }
 
