@@ -1,14 +1,17 @@
-import './App.css'
-import Searchbar from './searchbar/Searchbar'
+import "./App.css";
+import Divider from "./divider/Divider";
+import Searchbar from "./searchbar/Searchbar";
 
 function App() {
-
   return (
-    <div className='main-content'>
-      <h1 className='title'>Stock Exchange Dashboard</h1>
-      <Searchbar />
-    </div>
-  )
+    <>
+      <div className="main-content">
+        <h1>Stock Exchange Dashboard</h1>
+        <Searchbar />
+        <Divider />
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;

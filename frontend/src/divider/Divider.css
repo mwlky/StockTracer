@@ -1,0 +1,7 @@
+.divider-divider {
+    background: linear-gradient(135deg, #1e2a78, #3a1f6f);
+    height: 6px;
+    width: 51vw;
+    border-radius: 3px;
+    box-shadow: 0 8px 16px rgba(50, 50, 70, 0.3);
+}
