@@ -20,7 +20,7 @@ const StockcardsGrid = () => {
 
   return <div className="stockcards-container">
     {stockcards.map((stockcard) => (
-      <Stockcard key={stockcard.Title} title={stockcard.Title} price={stockcard.Price} change={stockcard.Change}  />
+      <Stockcard key={stockcard.title} title={stockcard.title} price={stockcard.price} change={stockcard.change}  />
     ))}
   </div>;
 };
