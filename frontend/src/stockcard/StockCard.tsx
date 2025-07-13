@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 
 import "./StockCard.css";
+import type { Stockcard } from "./Stockcard";
 
 ChartJS.register(
   LineElement,
@@ -21,14 +22,8 @@ ChartJS.register(
   Legend
 );
 
-interface StockCardProps {
-  title: string;
-  price: number;
-  change: number;
-}
-
-const StockCard: React.FC<StockCardProps> = ({ title, price, change }) => {
-  const chartData = React.useMemo(() => ({
+const StockCard: React.FC<Stockcard> = ({title,price,change,chartData}) => {
+  const myChartData = React.useMemo(() => ({
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
     datasets: [
       {
@@ -73,7 +68,7 @@ const StockCard: React.FC<StockCardProps> = ({ title, price, change }) => {
           </div>
         </div>
         <div className="chart-container">
-          <Line data={chartData} options={chartOptions} />
+          <Line data={chartData ?? myChartData} options={chartOptions} />
         </div>
       </div>
     </div>

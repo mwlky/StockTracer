@@ -1,7 +1,7 @@
 import "./App.css";
 import Divider from "./divider/Divider";
 import Searchbar from "./searchbar/Searchbar";
-import StockCard from "./stockcard/StockCard";
+import StockcardsGrid from "./stockcardsGrid/StockcardsGrid";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <h1>Stock Exchange Dashboard</h1>
         <Searchbar />
         <Divider />
-        <StockCard title="AAPL" price={150.25} change={1.5} />
+        <StockcardsGrid />
       </div>
     </>
   );
