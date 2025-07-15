@@ -12,6 +12,8 @@ import {
 
 import "./StockCard.css";
 import type { Stockcard } from "./Stockcard";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 ChartJS.register(
   LineElement,
@@ -22,43 +24,61 @@ ChartJS.register(
   Legend
 );
 
-const StockCard: React.FC<Stockcard> = ({title,price,change,chartData}) => {
-  const myChartData = React.useMemo(() => ({
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-    datasets: [
-      {
-        label: "Price",
-        data: [100, 105, 102, 108, 110],
-        borderColor: "#5a4de8",
-        backgroundColor: "rgba(90, 77, 232, 0.2)",
-        tension: 0.4,
-        fill: true,
-      },
-    ],
-  }), []);
+const StockCard: React.FC<Stockcard> = ({
+  title,
+  price,
+  change,
+  chartData,
+}) => {
+  const {attributes, listeners, setNodeRef, transform, transition} = useSortable({ id: title });
 
-  const chartOptions = React.useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false as const,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        display: false,
-      },
-      y: {
-        display: false,
-      },
-    },
-  }), []);
+  const myChartData = React.useMemo(
+    () => ({
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      datasets: [
+        {
+          label: "Price",
+          data: [100, 105, 102, 108, 110],
+          borderColor: "#5a4de8",
+          backgroundColor: "rgba(90, 77, 232, 0.2)",
+          tension: 0.4,
+          fill: true,
+        },
+      ],
+    }),
+    []
+  );
 
-  const percentageClass = change >= 0 ? "percentage-text-positive" : "percentage-text-negative";
+  const chartOptions = React.useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false as const,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      scales: {
+        x: {
+          display: false,
+        },
+        y: {
+          display: false,
+        },
+      },
+    }),
+    []
+  );
+
+  const percentageClass =
+    change >= 0 ? "percentage-text-positive" : "percentage-text-negative";
+
+  const style = {
+    transition, transform:  CSS.Transform.toString(transform)
+  }
 
   return (
-    <div className="stockcard">
+    <div className="stockcard" ref={setNodeRef} {...attributes} {...listeners} style={style}>
       <div className="info-container">
         <div className="numbers-container">
           <h1>{title}</h1>
