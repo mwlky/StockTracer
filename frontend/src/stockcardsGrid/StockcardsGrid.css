@@ -8,4 +8,9 @@
     justify-content: center;
     align-content: start;
     justify-items: center;
+    background: linear-gradient(135deg, #1118431e, #20113e1e);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }

@@ -12,6 +12,11 @@
     transition: 0.2s;
 }
 
+.stockcard:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
 .stockcard h1 {
     color: #F2F4F3;
     font-size: clamp(1.5rem, 1.4vw, 2rem);
