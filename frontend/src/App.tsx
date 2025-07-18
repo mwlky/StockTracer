@@ -3,7 +3,7 @@ import Divider from "./divider/Divider";
 import Searchbar from "./searchbar/Searchbar";
 import StockcardsGrid from "./stockcardsGrid/StockcardsGrid";
 
-function App() {
+function App(){
   return (
     <>
       <div className="main-content">
