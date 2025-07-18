@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-
 import "./StockcardsGrid.css";
 import Stockcard from "../stockcard/StockCard.tsx";
-
 import {
   DndContext,
   PointerSensor,
@@ -15,46 +13,35 @@ import { SortableContext } from "@dnd-kit/sortable";
 import { fetchStockData } from "../Utils.ts";
 
 const StockcardsGrid = () => {
-  const stocks = [
-    {
-      id: "AAPL",
-    },
-    {
-      id: "GOOGL",
-    },
-    {
-      id: "AMZN",
-    },
-    {
-      id: "MSFT",
-    },
-  ];
+  const stocks = ["AAPL", "GOOGL", "AMZN", "MSFT"];
+  const [stockcards, setStockcards] = useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = async () => {
+    try {
       const updatedStockcards = await Promise.all(
-        stocks.map(async (card) => {
-          const data = await fetchStockData(card.id);
+        stocks.map(async (symbol) => {
+          const data = await fetchStockData(symbol);
           return {
-            id: card.id,
-            price: data?.c, 
-            change: data.dp.toFixed(2),
-            
+            id: symbol,
+            price: data?.c ? data.c.toFixed(2) : 0,
+            change: data?.dp ? data.dp.toFixed(2) : "0.00",
           };
         })
       );
-      setStockcards(updatedStockcards);
+      setStockcards(updatedStockcards)
+    } catch (error) {
+      console.error("Błąd przy pobieraniu danych o akcjach:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); 
+    const interval = setInterval(fetchData, 10000);
+
+    return () => {
+      clearInterval(interval);
     };
-
-    fetchData();
   }, []);
-
-  const [stockcards, setStockcards] = useState([
-    { id: "AAPL", price: 150, change: 1.5 },
-    { id: "GOOGL", price: 2800, change: -0.5 },
-    { id: "AMZN", price: 3400, change: 2.0 },
-    { id: "MSFT", price: 299, change: 0.8 },
-  ]);
 
   function handleDragEnd(event: DragEndEvent): void {
     const { active, over } = event;
