@@ -28,7 +28,17 @@ const StockcardsGrid = () => {
           };
         })
       );
-      setStockcards(updatedStockcards)
+
+      const savedOrder = JSON.parse(localStorage.getItem("stockcardsOrder") || "[]");
+      if (savedOrder.length > 0) {
+        const orderedStockcards = savedOrder.map((id: string) =>
+          updatedStockcards.find((card) => card.id === id)
+        );
+        setStockcards(orderedStockcards.filter(Boolean));
+      } else {
+        setStockcards(updatedStockcards);
+      }
+
     } catch (error) {
       console.error("Błąd przy pobieraniu danych o akcjach:", error);
     }
@@ -53,6 +63,9 @@ const StockcardsGrid = () => {
         const updatedItems = [...items];
         updatedItems.splice(oldIndex, 1);
         updatedItems.splice(newIndex, 0, items[oldIndex]);
+
+        localStorage.setItem("stockcardsOrder", JSON.stringify(updatedItems.map(item => item.id)));
+
         return updatedItems;
       });
     }
