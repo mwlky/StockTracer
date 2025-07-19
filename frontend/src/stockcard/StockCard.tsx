@@ -24,6 +24,41 @@ ChartJS.register(
   Legend
 );
 
+const generateRandomChartData = (change: number) => {
+  const pointsCount = 5;
+  const startPrice = 100;
+  const range = 5;
+  let data: number[] = [];
+
+  let current = startPrice + (Math.random() * 10 - 5);
+
+  for (let i = 0; i < pointsCount - 1; i++) {
+    let step = Math.random() * 10 - 5;
+
+    if (change > 0) {
+      step = Math.abs(step);
+    } else {
+      step = -Math.abs(step);
+    }
+
+    current += step;
+
+    current = Math.min(Math.max(current, startPrice - range), startPrice + range);
+
+    data.push(parseFloat(current.toFixed(2)));
+  }
+
+  let lastPoint = data.length > 0 ? data[data.length - 1] : current;
+  if (change > 0) {
+    lastPoint = lastPoint + Math.random() * 5 + 1; 
+  } else {
+    lastPoint = lastPoint - (Math.random() * 5 + 1);
+  }
+  data.push(parseFloat(lastPoint.toFixed(2)));
+
+  return data;
+};
+
 const StockCard: React.FC<Stockcard> = ({
   title,
   price,
@@ -32,21 +67,25 @@ const StockCard: React.FC<Stockcard> = ({
 }) => {
   const {attributes, listeners, setNodeRef, transform, transition} = useSortable({ id: title });
 
+  const data = React.useMemo(() => generateRandomChartData(change), [change]);
+
   const myChartData = React.useMemo(
-    () => ({
+    () => (
+      {
       labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
       datasets: [
         {
           label: "Price",
-          data: [100, 105, 102, 108, 110],
+          data: data,
           borderColor: "#5a4de8",
           backgroundColor: "rgba(90, 77, 232, 0.2)",
           tension: 0.4,
           fill: true,
+          pointRadius: 0,
         },
       ],
     }),
-    []
+    [data]
   );
 
   const chartOptions = React.useMemo(
