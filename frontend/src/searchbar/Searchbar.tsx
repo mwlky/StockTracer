@@ -1,18 +1,7 @@
 import { useState } from "react";
-import "./Searchbar.css";
+import { allStocks } from "../general/Stocks";
 
-const allStocks = [
-  "AAPL",
-  "GOOGL",
-  "AMZN",
-  "MSFT",
-  "TSLA",
-  "NFLX",
-  "FB",
-  "NVDA",
-  "DIS",
-  "V",
-];
+import "./Searchbar.css";
 
 const Searchbar = ({ addStock }: { addStock: (stock: string) => void }) => {
   const [query, setQuery] = useState("");

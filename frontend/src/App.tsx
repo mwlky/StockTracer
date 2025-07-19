@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Divider from "./divider/Divider";
 import Searchbar from "./searchbar/Searchbar";
-import { fetchStockData } from "./Utils";
+import { fetchStockData } from "./general/Utils";
 import StockcardsGrid from "./stockcardsGrid/StockcardsGrid";
 
 const DEFAULT_STOCKS = ["AAPL", "GOOGL", "AMZN", "MSFT"];

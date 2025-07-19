@@ -9,7 +9,7 @@ import {
   type DragEndEvent,
 } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
-import { fetchStockData } from "../Utils.ts";
+import { fetchStockData } from "../general/Utils.ts";
 
 const StockcardsGrid = ({
   stockcards,
