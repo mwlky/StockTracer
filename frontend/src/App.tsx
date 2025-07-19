@@ -10,7 +10,6 @@ const DEFAULT_STOCKS = ["AAPL", "GOOGL", "AMZN", "MSFT"];
 function App() {
   const [stockcards, setStockcards] = useState<any[]>([]);
 
-  // Inicjalizacja domyślnych spółek na starcie
   useEffect(() => {
     const init = async () => {
       const existing = localStorage.getItem("stockcardsOrder");

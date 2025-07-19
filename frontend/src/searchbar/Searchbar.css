@@ -1,5 +1,5 @@
 .searchbar-container {
-  position: relative; /* Umożliwia pozycjonowanie absolutne podpowiedzi w obrębie tego kontenera */
+  position: relative;
   z-index: 1;
 }
 
@@ -50,13 +50,12 @@
   transform: scale(0.95);
 }
 
-/* Kontener dla podpowiedzi */
 .suggestion-container {
-  position: absolute; /* Umieszcza podpowiedzi w odpowiednim miejscu względem rodzica */
-  top: 100%; /* Ustawia podpowiedzi tuż poniżej inputa */
+  position: absolute;
+  top: 100%; 
   left: 0;
   right: 0;
-  z-index: 2; /* Zapewnia, że podpowiedzi będą nad innymi elementami */
+  z-index: 2;
   padding: 5px;
   background: linear-gradient(135deg, #1e2a7860, #3a1f6f8a);
   border-radius: 12px;
@@ -69,16 +68,14 @@
   pointer-events: none;
 }
 
-/* Aktywna wersja podpowiedzi */
 .suggestion-container-active {
   opacity: 1;
   visibility: visible;
-  max-height: 300px; /* Maksymalna wysokość dla podpowiedzi */
+  max-height: 300px;
   padding: 10px;
   pointer-events: all;
 }
 
-/* Lista podpowiedzi */
 .suggestions-list {
   margin: 0;
   padding: 0;
@@ -87,7 +84,6 @@
   overflow-y: auto;
 }
 
-/* Styl dla poszczególnych elementów listy */
 .suggestions-list li {
   padding: 10px;
   color: #d0d0ff;

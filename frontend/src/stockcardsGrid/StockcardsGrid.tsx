@@ -18,49 +18,55 @@ const StockcardsGrid = ({
   stockcards: any[];
   setStockcards: React.Dispatch<React.SetStateAction<any[]>>;
 }) => {
-  const fetchData = async () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = async (isInitialLoad = false) => {
+    if (isInitialLoad) setIsLoading(true);
     try {
+      const baseIds =
+        stockcards.length > 0
+          ? stockcards.map((c) => c.id)
+          : JSON.parse(localStorage.getItem("stockcardsOrder") || "[]");
+
+      if (baseIds.length === 0) {
+        if (isInitialLoad) setIsLoading(false);
+        return;
+      }
+
       const updated = await Promise.all(
-        stockcards.map(async (card) => {
-          const data = await fetchStockData(card.id);
+        baseIds.map(async (id: string) => {
+          const data = await fetchStockData(id);
           return {
-            id: card.id,
+            id,
             price: data?.c?.toFixed(2) || "0.00",
             change: data?.dp?.toFixed(2) || "0.00",
           };
         })
       );
 
-      const savedOrder = JSON.parse(
-        localStorage.getItem("stockcardsOrder") || "[]"
-      );
-      if (savedOrder.length > 0) {
-        const ordered = savedOrder
-          .map((id: string) => updated.find((c) => c.id === id))
-          .filter(Boolean);
-        setStockcards(ordered);
-      } else {
-        setStockcards(updated);
-      }
+      setStockcards(updated);
     } catch (error) {
       console.error("Error updating stock data:", error);
+    } finally {
+      if (isInitialLoad) setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const interval = setInterval(fetchData, 10000);
+    fetchData(true);
+    const interval = setInterval(() => fetchData(false), 10000);
     return () => clearInterval(interval);
   }, []);
-  function handleDragEnd(event: DragEndEvent): void {
-    const { active, over } = event;
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
     if (active.id !== over?.id) {
       setStockcards((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over?.id);
         const updatedItems = [...items];
-        updatedItems.splice(oldIndex, 1);
-        updatedItems.splice(newIndex, 0, items[oldIndex]);
+        const [movedItem] = updatedItems.splice(oldIndex, 1);
+        updatedItems.splice(newIndex, 0, movedItem);
 
         localStorage.setItem(
           "stockcardsOrder",
@@ -70,24 +76,28 @@ const StockcardsGrid = ({
         return updatedItems;
       });
     }
-  }
+  };
 
   const sensors = useSensors(useSensor(PointerSensor));
 
   return (
     <div className="stockcards-container">
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <SortableContext items={stockcards.map((card) => card.id)}>
-          {stockcards.map((stockcard) => (
-            <Stockcard
-              key={stockcard.id}
-              title={stockcard.id}
-              price={stockcard.price}
-              change={stockcard.change}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
+      {isLoading ? (
+        <div className="loading-indicator">Loading...</div>
+      ) : (
+        <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+          <SortableContext items={stockcards.map((card) => card.id)}>
+            {stockcards.map((stockcard) => (
+              <Stockcard
+                key={stockcard.id}
+                title={stockcard.id}
+                price={stockcard.price}
+                change={stockcard.change}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+      )}
     </div>
   );
 };
