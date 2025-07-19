@@ -1,12 +1,18 @@
+.searchbar-container {
+  position: relative; /* Umożliwia pozycjonowanie absolutne podpowiedzi w obrębie tego kontenera */
+  z-index: 1;
+}
+
 .searchbar {
   display: flex;
   width: 50vw;
-  min-width: 300px; 
+  min-width: 300px;
   margin: 2% auto;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(50, 50, 70, 0.7);
   background: linear-gradient(135deg, #1e2a78, #3a1f6f);
+  z-index: 2;
 }
 
 .searchbar input {
@@ -42,4 +48,60 @@
 
 .searchbar button:active {
   transform: scale(0.95);
+}
+
+/* Kontener dla podpowiedzi */
+.suggestion-container {
+  position: absolute; /* Umieszcza podpowiedzi w odpowiednim miejscu względem rodzica */
+  top: 100%; /* Ustawia podpowiedzi tuż poniżej inputa */
+  left: 0;
+  right: 0;
+  z-index: 2; /* Zapewnia, że podpowiedzi będą nad innymi elementami */
+  padding: 5px;
+  background: linear-gradient(135deg, #1e2a7860, #3a1f6f8a);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(50, 50, 70, 0.7);
+  transition: all 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Aktywna wersja podpowiedzi */
+.suggestion-container-active {
+  opacity: 1;
+  visibility: visible;
+  max-height: 300px; /* Maksymalna wysokość dla podpowiedzi */
+  padding: 10px;
+  pointer-events: all;
+}
+
+/* Lista podpowiedzi */
+.suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Styl dla poszczególnych elementów listy */
+.suggestions-list li {
+  padding: 10px;
+  color: #d0d0ff;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, padding 0.2s ease;
+}
+
+.suggestions-list li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding-left: 15px;
+}
+
+.suggestions-list li:active {
+  transform: scale(0.98);
 }

@@ -4,7 +4,6 @@ import Stockcard from "../stockcard/StockCard.tsx";
 import {
   DndContext,
   PointerSensor,
-  TouchSensor,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -12,47 +11,46 @@ import {
 import { SortableContext } from "@dnd-kit/sortable";
 import { fetchStockData } from "../Utils.ts";
 
-const StockcardsGrid = () => {
-  const stocks = ["AAPL", "GOOGL", "AMZN", "MSFT"];
-  const [stockcards, setStockcards] = useState<any[]>([]);
-
+const StockcardsGrid = ({
+  stockcards,
+  setStockcards,
+}: {
+  stockcards: any[];
+  setStockcards: React.Dispatch<React.SetStateAction<any[]>>;
+}) => {
   const fetchData = async () => {
     try {
-      const updatedStockcards = await Promise.all(
-        stocks.map(async (symbol) => {
-          const data = await fetchStockData(symbol);
+      const updated = await Promise.all(
+        stockcards.map(async (card) => {
+          const data = await fetchStockData(card.id);
           return {
-            id: symbol,
-            price: data?.c ? data.c.toFixed(2) : 0,
-            change: data?.dp ? data.dp.toFixed(2) : "0.00",
+            id: card.id,
+            price: data?.c?.toFixed(2) || "0.00",
+            change: data?.dp?.toFixed(2) || "0.00",
           };
         })
       );
 
-      const savedOrder = JSON.parse(localStorage.getItem("stockcardsOrder") || "[]");
+      const savedOrder = JSON.parse(
+        localStorage.getItem("stockcardsOrder") || "[]"
+      );
       if (savedOrder.length > 0) {
-        const orderedStockcards = savedOrder.map((id: string) =>
-          updatedStockcards.find((card) => card.id === id)
-        );
-        setStockcards(orderedStockcards.filter(Boolean));
+        const ordered = savedOrder
+          .map((id: string) => updated.find((c) => c.id === id))
+          .filter(Boolean);
+        setStockcards(ordered);
       } else {
-        setStockcards(updatedStockcards);
+        setStockcards(updated);
       }
-
     } catch (error) {
-      console.error("Błąd przy pobieraniu danych o akcjach:", error);
+      console.error("Error updating stock data:", error);
     }
   };
 
   useEffect(() => {
-    fetchData(); 
     const interval = setInterval(fetchData, 10000);
-
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, []);
-
   function handleDragEnd(event: DragEndEvent): void {
     const { active, over } = event;
 
@@ -64,14 +62,17 @@ const StockcardsGrid = () => {
         updatedItems.splice(oldIndex, 1);
         updatedItems.splice(newIndex, 0, items[oldIndex]);
 
-        localStorage.setItem("stockcardsOrder", JSON.stringify(updatedItems.map(item => item.id)));
+        localStorage.setItem(
+          "stockcardsOrder",
+          JSON.stringify(updatedItems.map((item) => item.id))
+        );
 
         return updatedItems;
       });
     }
   }
 
-  const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
+  const sensors = useSensors(useSensor(PointerSensor));
 
   return (
     <div className="stockcards-container">

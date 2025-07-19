@@ -5,7 +5,6 @@ export const fetchStockData = async (stockId: string) => {
       throw new Error(`Error fetching data for ${stockId}`);
     }
     const data = await response.json();
-    console.log(`Fetched data for ${stockId}:`, data);
 
     return data;
   } catch (error) {
