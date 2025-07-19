@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import Divider from "./divider/Divider";
+import Searchbar from "./searchbar/Searchbar";
+import { fetchStockData } from "./general/Utils";
+import StockcardsGrid from "./stockcardsGrid/StockcardsGrid";
+
+const DEFAULT_STOCKS = ["AAPL", "GOOGL", "AMZN", "MSFT"];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [stockcards, setStockcards] = useState<any[]>([]);
+
+  useEffect(() => {
+    const init = async () => {
+      const existing = localStorage.getItem("stockcardsOrder");
+
+      let initialStocks = DEFAULT_STOCKS;
+      if (existing) {
+        const savedIds = JSON.parse(existing);
+        initialStocks = savedIds;
+      }
+
+      const data = await Promise.all(
+        initialStocks.map(async (symbol) => {
+          const d = await fetchStockData(symbol);
+          return {
+            id: symbol,
+            price: d?.c?.toFixed(2) || "0.00",
+            change: d?.dp?.toFixed(2) || "0.00",
+          };
+        })
+      );
+
+      setStockcards(data);
+    };
+
+    init();
+  }, []);
+
+  const addStockcard = (stock: string) => {
+    if (stockcards.some((s) => s.id === stock)) return;
+
+    const newStockcard = {
+      id: stock,
+      price: "0.00",
+      change: "0.00",
+    };
+
+    const updated = [...stockcards, newStockcard];
+    setStockcards(updated);
+    localStorage.setItem("stockcardsOrder", JSON.stringify(updated.map((s) => s.id)));
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="main-content">
+        <h1>Stock Exchange Dashboard</h1>
+        <Searchbar addStock={addStockcard} />
+        <Divider />
+        <StockcardsGrid stockcards={stockcards} setStockcards={setStockcards} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

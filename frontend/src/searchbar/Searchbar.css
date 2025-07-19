@@ -1,0 +1,119 @@
+.searchbar-container {
+  position: relative;
+  z-index: 1;
+}
+
+.searchbar {
+  display: flex;
+  width: 50vw;
+  min-width: 300px;
+  margin: 2% auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(50, 50, 70, 0.7);
+  background: linear-gradient(135deg, #1e2a78, #3a1f6f);
+  z-index: 2;
+}
+
+.searchbar input {
+  flex-grow: 1;
+  padding: clamp(10px, 2vw, 14px) clamp(12px, 3vw, 20px);
+  font-size: clamp(14px, 2vw, 18px);
+  color: #d0d0ff;
+  background: transparent;
+  border: none;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.searchbar input::placeholder {
+  color: #9a9ade;
+}
+
+.searchbar input:focus {
+  background-color: rgba(255 255 255 / 0.1);
+}
+
+.searchbar button {
+  background: #5a4de8;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0 clamp(15px, 3vw, 28px);
+  font-size: clamp(14px, 2vw, 18px);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.searchbar button:active {
+  transform: scale(0.95);
+}
+
+.suggestion-container {
+  position: absolute;
+  top: 85%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 5px;
+  background: linear-gradient(135deg, #1e2a7860, #3a1f6f8a);
+  box-shadow: 0 4px 12px rgba(50, 50, 70, 0.7);
+  transition: all 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.suggestion-container-active {
+  border-radius: 10px;
+  position: absolute;
+  opacity: 1;
+  visibility: visible;
+  max-height: 300px;
+  padding: 10px;
+  pointer-events: all;
+  width: 100%;
+  z-index: 100;
+  background: linear-gradient(135deg, #1e2a78, #3a1f6f);
+}
+
+.suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.suggestions-list li {
+  z-index: 1;
+  padding: 10px;
+  color: #d0d0ff;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, padding 0.2s ease;
+}
+
+.suggestions-list li:hover {
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding-left: 15px;
+}
+
+.suggestions-list li:active {
+  transform: scale(0.98);
+}
+
+.suggestions-list::-webkit-scrollbar {
+  background: none;
+  width: 8px;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #5a4de8, #3a1f6f);
+}
