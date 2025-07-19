@@ -1,4 +1,5 @@
 .stockcards-container {
+    position: relative;
     display: grid;
     width: 85%;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

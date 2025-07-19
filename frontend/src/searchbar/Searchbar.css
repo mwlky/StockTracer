@@ -52,13 +52,12 @@
 
 .suggestion-container {
   position: absolute;
-  top: 100%; 
+  top: 85%;
   left: 0;
   right: 0;
   z-index: 2;
   padding: 5px;
   background: linear-gradient(135deg, #1e2a7860, #3a1f6f8a);
-  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(50, 50, 70, 0.7);
   transition: all 0.3s ease;
   opacity: 0;
@@ -69,11 +68,16 @@
 }
 
 .suggestion-container-active {
+  border-radius: 10px;
+  position: absolute;
   opacity: 1;
   visibility: visible;
   max-height: 300px;
   padding: 10px;
   pointer-events: all;
+  width: 100%;
+  z-index: 100;
+  background: linear-gradient(135deg, #1e2a78, #3a1f6f);
 }
 
 .suggestions-list {
@@ -82,9 +86,11 @@
   list-style: none;
   max-height: 200px;
   overflow-y: auto;
+  z-index: 1;
 }
 
 .suggestions-list li {
+  z-index: 1;
   padding: 10px;
   color: #d0d0ff;
   cursor: pointer;
@@ -94,10 +100,20 @@
 }
 
 .suggestions-list li:hover {
+  z-index: 1;
   background-color: rgba(255, 255, 255, 0.1);
   padding-left: 15px;
 }
 
 .suggestions-list li:active {
   transform: scale(0.98);
+}
+
+.suggestions-list::-webkit-scrollbar {
+  background: none;
+  width: 8px;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #5a4de8, #3a1f6f);
 }
