@@ -11,7 +11,8 @@
   },
   "cors": {
     "allowedOrigins": [
-      "http://localhost:5173"
+      "http://localhost:5173",
+      "https://purple-forest-009737803.2.azurestaticapps.net"
     ]
   }
 }
