@@ -1,6 +1,8 @@
 export const fetchStockData = async (stockId: string) => {
   try {
-    const response = await fetch(`http://localhost:7133/api/stock?symbol=${stockId}`);
+    const url = import.meta.env.VITE_API_URL;
+
+    const response = await fetch(`${url}/stock?symbol=${stockId}`);
     if (!response.ok) {
       throw new Error(`Error fetching data for ${stockId}`);
     }
