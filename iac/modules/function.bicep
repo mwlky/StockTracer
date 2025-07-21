@@ -30,6 +30,12 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
   properties: {
     serverFarmId: hostingPlan.id
     siteConfig: {
+      cors: {
+        allowedOrigins: [
+          'http://localhost:5173'
+          'https://purple-forest-009737803.2.azurestaticapps.net'
+        ]
+      }
       appSettings: [
         {
           name: 'AzureWebJobsStorage'

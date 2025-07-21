@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Extensions.Logging;
 using StockTracer.Backend;
 using System.Net;
 
@@ -18,6 +19,7 @@ public class Functions(StockService _stockService)
         FunctionContext context)
     {
         var logger = context.GetLogger("GetStock");
+
 
         string? origin = req.Headers.TryGetValues("Origin", out var originValues)
             ? originValues.FirstOrDefault()
@@ -43,6 +45,7 @@ public class Functions(StockService _stockService)
             return badResponse;
         }
 
+        logger.LogInformation($"Received request from origin: {origin}, symbol: {symbol}");
         var stock = await _stockService.GetStockAsync(symbol);
         if (stock == null)
         {
