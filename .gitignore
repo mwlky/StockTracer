@@ -19,7 +19,6 @@ frontend/.vscode/
 frontend/.idea/
 
 # === BACKEND (.NET) ===
-backend/bin/
 backend/obj/
 backend/*.user
 backend/*.suo
@@ -29,6 +28,10 @@ backend/.idea/
 backend/TestResults/
 backend/*.db
 backend/appsettings.Development.json
+
+# EXCLUDE bin and obj from .gitignore for Azure Functions
+!backend/bin/
+!backend/obj/
 
 # === GLOBAL ===
 *.swp
