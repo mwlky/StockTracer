@@ -4,8 +4,15 @@ using Microsoft.Extensions.Logging;
 using StockTracer.Backend;
 using System.Net;
 
-public class Functions(StockService _stockService)
+public class Functions
 {
+    private readonly StockService _stockService;
+
+    public Functions(StockService stockService)
+    {
+        _stockService = stockService;
+    }
+
     private static readonly string[] AllowedOrigins = new[]
     {
         "http://localhost:5173",

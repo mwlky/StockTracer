@@ -1,17 +1,18 @@
-using Microsoft.Azure.Functions.Worker.Builder;
+﻿using Microsoft.Azure.Functions.Worker.Builder;
 using StockTracer.Backend;
+
+//var host = new HostBuilder()
+//    .ConfigureServices(services =>
+//    {
+//        services.AddSingleton<StockService>();
+//    })
+//    .Build();
+
+//host.Run();
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
-builder.ConfigureFunctionsWebApplication();
+builder.Services.AddSingleton<StockService>();
 
-var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults()
-    .ConfigureServices(services =>
-    {
-        //services.AddHttpClient();
-        services.AddSingleton<StockService>();
-    })
-    .Build();
-
-host.Run();
+var app = builder.Build();
+app.Run();
