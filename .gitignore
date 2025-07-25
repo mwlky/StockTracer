@@ -19,6 +19,7 @@ frontend/.vscode/
 frontend/.idea/
 
 # === BACKEND (.NET) ===
+backend/bin/
 backend/obj/
 backend/*.user
 backend/*.suo
