@@ -39,7 +39,6 @@ A lightweight stock monitoring app built with **React**, **Azure Functions**, an
 - ✅ Responsive UI
 - ✅ Fully serverless architecture (no paid backend services)
 - 🔄 Docker-based containerization (planned)
-- 🔄 Kubernetes deployment (planned)
 
 > ✅ = implemented  
 > 🔄 = in progress
